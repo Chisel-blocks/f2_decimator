@@ -5,7 +5,7 @@ git submodule update --init
 
 #Publish local the ones you need
 for module in clkdiv_n_2_4_8 halfband cic3; do
-    cd $DIR/clkdiv_n_2_4_8
+    cd $DIR/$module
     sbt publishLocal
 done
 
