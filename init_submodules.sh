@@ -4,7 +4,7 @@ DIR="$( cd "$( dirname $0 )" && pwd )"
 git submodule update --init
 
 #Publish local the ones you need
-for module in clkdiv_n_2_4_8 halfband cic3; do
+for module in clkdiv_n_2_4_8 halfband cic3 clkmux; do
     cd $DIR/$module
     sbt publishLocal
 done
