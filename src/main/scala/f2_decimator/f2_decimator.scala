@@ -2,7 +2,7 @@
 package f2_decimator
 import chisel3._
 import chisel3.util._
-//import chisel3.experimental._
+import chisel3.experimental.{withClock, withClockAndReset}
 import dsptools._
 import dsptools.numbers._
 //import breeze.math.Complex
