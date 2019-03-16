@@ -7,6 +7,3 @@
 [submodule "clkdiv_n_2_4_8"]
 	path = clkdiv_n_2_4_8
 	url = git@bwrcrepo.eecs.berkeley.edu:dsp-blocks/chisel/clkdiv_n_2_4_8.git
-[submodule "clkmux"]
-	path = clkmux
-	url = git@bwrcrepo.eecs.berkeley.edu:dsp-blocks/chisel/clkmux.git
