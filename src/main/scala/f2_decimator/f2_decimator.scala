@@ -68,19 +68,19 @@ class f2_decimator (n: Int=16, resolution: Int=32, coeffres: Int=16, gainbits: I
     
     //Reset initializations
     val cic3reset = Wire(Bool())
-    cic3reset     :=reset.asBool()
+    cic3reset     :=reset.toBool()
     val cic3= withClockAndReset(io.clocks.MASTER_CLOCK,cic3reset)(Module( new cic3(n=n,resolution=resolution,gainbits=gainbits)))
 
     val hb1reset = Wire(Bool())
-    hb1reset     :=reset.asBool
+    hb1reset     :=reset.toBool
     val hb1 = withClockAndReset(io.clocks.cic3clockslow,hb1reset)(Module( new halfband( n=16, resolution=32,coeffs=halfband_BW_01125_N_6.H.map(_ * (math.pow(2,coeffres-1)-1)).map(_.toInt))))
 
     val hb2reset = Wire(Bool())
-    hb2reset     :=reset.asBool
+    hb2reset     :=reset.toBool
     val hb2 = withClockAndReset(io.clocks.hb1clock_low,hb2reset)(Module( new halfband( n=16, resolution=32,coeffs=halfband_BW_0225_N_8.H.map(_ * (math.pow(2,coeffres-1)-1)).map(_.toInt))))
 
     val hb3reset = Wire(Bool())
-    hb3reset    :=reset.asBool
+    hb3reset    :=reset.toBool
     val hb3 = withClockAndReset(io.clocks.hb2clock_low,hb3reset)(Module( new halfband( n=16, resolution=32,coeffs=halfband_BW_045_N_40.H.map(_ * (math.pow(2,coeffres-1)-1)).map(_.toInt))))
 
     //Default is to bypass
@@ -113,24 +113,24 @@ class f2_decimator (n: Int=16, resolution: Int=32, coeffres: Int=16, gainbits: I
             cic3reset        :=true.B 
             hb1reset         :=true.B
             hb2reset         :=true.B
-            hb3reset         :=reset.asBool
+            hb3reset         :=reset.toBool
             hb3.io.iptr_A    :=io.iptr_A
             io.Z             :=hb3.io.Z
         }
         is(four) {
             cic3reset        :=true.B 
             hb1reset         :=true.B
-            hb2reset         :=reset.asBool
-            hb3reset         :=reset.asBool
+            hb2reset         :=reset.toBool
+            hb3reset         :=reset.toBool
             hb2.io.iptr_A    :=io.iptr_A
             hb3.io.iptr_A    :=hb2.io.Z
             io.Z             :=hb3.io.Z
         }
         is(eight) {
             cic3.reset       :=true.B
-            hb1.reset        :=reset.asBool 
-            hb2.reset        :=reset.asBool
-            hb3reset         :=reset.asBool
+            hb1.reset        :=reset.toBool 
+            hb2.reset        :=reset.toBool
+            hb3reset         :=reset.toBool
             hb1.io.iptr_A    :=io.iptr_A
             hb2.io.iptr_A    :=hb1.io.Z
             hb3.io.iptr_A    :=hb2.io.Z
@@ -138,9 +138,9 @@ class f2_decimator (n: Int=16, resolution: Int=32, coeffres: Int=16, gainbits: I
         }
         is(more) {
             cic3reset        :=io.controls.reset_loop 
-            hb1reset         :=reset.asBool
-            hb2reset         :=reset.asBool
-            hb3reset         :=reset.asBool
+            hb1reset         :=reset.toBool
+            hb2reset         :=reset.toBool
+            hb3reset         :=reset.toBool
             cic3.io.iptr_A   :=io.iptr_A
             hb1.io.iptr_A    :=cic3.io.Z
             hb2.io.iptr_A    :=hb1.io.Z
