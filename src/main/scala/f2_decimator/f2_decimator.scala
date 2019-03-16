@@ -15,7 +15,6 @@ import cic3._
 // This is a multiclock design, for clarity we do not use default clock for anything
 // MASTER_CLOCK is the fastest
 class f2_decimator_clocks extends Bundle {
-        val MASTER_CLOCK    = Input(Clock())
         val cic3clockslow   = Input(Clock())
         val hb1clock_low    = Input(Clock())
         val hb2clock_low    = Input(Clock())
@@ -34,6 +33,7 @@ class f2_decimator_controls(val resolution: Int, val gainbits: Int) extends Bund
 }
 
 class f2_decimator_io(n: Int, resolution: Int, gainbits: Int) extends Bundle {
+        val MASTER_CLOCK    = Input(Clock())
         val clocks          = new f2_decimator_clocks
         val controls        = new f2_decimator_controls(resolution=resolution,gainbits=gainbits)
         val iptr_A          = Input(DspComplex(SInt(n.W), SInt(n.W)))
@@ -48,7 +48,7 @@ class f2_decimator (n: Int=16, resolution: Int=32, coeffres: Int=16, gainbits: I
     //State definitions
     val bypass :: two :: four :: eight :: more :: Nil = Enum(5)
     //Select state
-    val state=withClock(io.clocks.MASTER_CLOCK)(RegInit(bypass))
+    val state=withClock(io.MASTER_CLOCK)(RegInit(bypass))
     
     //Decoder for the modes
     when(io.controls.mode===0.U){
@@ -69,7 +69,7 @@ class f2_decimator (n: Int=16, resolution: Int=32, coeffres: Int=16, gainbits: I
     //Reset initializations
     val cic3reset = Wire(Bool())
     cic3reset     :=reset.toBool()
-    val cic3= withClockAndReset(io.clocks.MASTER_CLOCK,cic3reset)(Module( new cic3(n=n,resolution=resolution,gainbits=gainbits)))
+    val cic3= withClockAndReset(io.MASTER_CLOCK,cic3reset)(Module( new cic3(n=n,resolution=resolution,gainbits=gainbits)))
 
     val hb1reset = Wire(Bool())
     hb1reset     :=reset.toBool
