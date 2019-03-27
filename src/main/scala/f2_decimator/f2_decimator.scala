@@ -69,19 +69,48 @@ class f2_decimator (n: Int=16, resolution: Int=32, coeffres: Int=16, gainbits: I
     val cic3reset = Wire(Bool())
     cic3reset     :=reset.toBool()
     //Clock is master
-    val cic3= withReset(cic3reset)(Module( new cic3(n=n,resolution=resolution,gainbits=gainbits)))
+    val cic3= withReset(cic3reset){
+        Module( new cic3(n=n,resolution=resolution,gainbits=gainbits))
+    }
 
     val hb1reset = Wire(Bool())
     hb1reset     :=reset.toBool
-    val hb1 = withClockAndReset(io.clocks.cic3clockslow,hb1reset)(Module( new halfband( n=16, resolution=32,coeffs=halfband_BW_01125_N_6.H.map(_ * (math.pow(2,coeffres-1)-1)).map(_.toInt))))
+    val hb1 = withClockAndReset(io.clocks.cic3clockslow,hb1reset){
+        Module( 
+            new halfband( 
+                n=16, 
+                resolution=32,
+                coeffs=halfband_BW_01125_N_6.H
+                    .map(_ * (math.pow(2,coeffres-1)-1)).map(_.toInt)
+            )
+        )
+    }
 
     val hb2reset = Wire(Bool())
     hb2reset     :=reset.toBool
-    val hb2 = withClockAndReset(io.clocks.hb1clock_low,hb2reset)(Module( new halfband( n=16, resolution=32,coeffs=halfband_BW_0225_N_8.H.map(_ * (math.pow(2,coeffres-1)-1)).map(_.toInt))))
+    val hb2 = withClockAndReset(io.clocks.hb1clock_low,hb2reset){
+        Module( 
+            new halfband( 
+                n=16, 
+                resolution=32,
+                coeffs=halfband_BW_0225_N_8.H
+                    .map(_ * (math.pow(2,coeffres-1)-1)).map(_.toInt)
+            )
+        )
+    }
 
     val hb3reset = Wire(Bool())
     hb3reset    :=reset.toBool
-    val hb3 = withClockAndReset(io.clocks.hb2clock_low,hb3reset)(Module( new halfband( n=16, resolution=32,coeffs=halfband_BW_045_N_40.H.map(_ * (math.pow(2,coeffres-1)-1)).map(_.toInt))))
+    val hb3 = withClockAndReset(io.clocks.hb2clock_low,hb3reset){
+        Module( 
+            new halfband( 
+                n=16, 
+                resolution=32,
+                coeffs=halfband_BW_045_N_40.H
+                    .map(_ * (math.pow(2,coeffres-1)-1)).map(_.toInt)
+            )
+        )
+    }
 
     //Default is to bypass
     cic3.io.clockslow :=io.clocks.cic3clockslow
@@ -107,7 +136,9 @@ class f2_decimator (n: Int=16, resolution: Int=32, coeffres: Int=16, gainbits: I
             hb1reset         :=true.B
             hb2reset         :=true.B
             hb3reset         :=true.B
-            io.Z             :=withClock(io.clocks.hb3clock_low){RegNext(io.iptr_A) }
+            io.Z             :=withClock(io.clocks.hb3clock_low){
+                                   RegNext(io.iptr_A)
+                               }
         }
         is(two) {
             cic3reset        :=true.B 
