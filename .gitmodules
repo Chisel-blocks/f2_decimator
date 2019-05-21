@@ -1,9 +1,9 @@
 [submodule "halfband"]
 	path = halfband
-	url = git@github.com/Chisel-blocks/halfband.git
+	url = git@github.com:Chisel-blocks/halfband.git
 [submodule "cic3"]
 	path = cic3
-	url = git@github.com/Chisel-blocks/cic3.git
+	url = git@github.com:Chisel-blocks/cic3.git
 [submodule "clkdiv_n_2_4_8"]
 	path = clkdiv_n_2_4_8
-	url = git@github.com/Chisel-blocks/clkdiv_n_2_4_8.git
+	url = git@github.com:Chisel-blocks/clkdiv_n_2_4_8.git
