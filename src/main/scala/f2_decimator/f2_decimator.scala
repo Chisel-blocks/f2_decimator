@@ -130,8 +130,7 @@ class f2_decimator (n: Int=16, resolution: Int=32, coeffres: Int=16, gainbits: I
    
 
     //Modes
-    switch(state) {
-        is(bypass) {
+    when(state===bypass){
             cic3reset        :=true.B 
             hb1reset         :=true.B
             hb2reset         :=true.B
@@ -139,16 +138,14 @@ class f2_decimator (n: Int=16, resolution: Int=32, coeffres: Int=16, gainbits: I
             io.Z             :=withClock(io.clocks.hb3clock_low){
                                    RegNext(io.iptr_A)
                                }
-        }
-        is(two) {
+        }.elsewhen(state=== two){
             cic3reset        :=true.B 
             hb1reset         :=true.B
             hb2reset         :=true.B
             hb3reset         :=reset.toBool
             hb3.io.iptr_A    :=io.iptr_A
             io.Z             :=hb3.io.Z
-        }
-        is(four) {
+        }.elsewhen( state===four){
             cic3reset        :=true.B 
             hb1reset         :=true.B
             hb2reset         :=reset.toBool
@@ -156,8 +153,7 @@ class f2_decimator (n: Int=16, resolution: Int=32, coeffres: Int=16, gainbits: I
             hb2.io.iptr_A    :=io.iptr_A
             hb3.io.iptr_A    :=hb2.io.Z
             io.Z             :=hb3.io.Z
-        }
-        is(eight) {
+        }.elsewhen(state===eight) {
             cic3.reset       :=true.B
             hb1.reset        :=reset.toBool 
             hb2.reset        :=reset.toBool
@@ -166,8 +162,7 @@ class f2_decimator (n: Int=16, resolution: Int=32, coeffres: Int=16, gainbits: I
             hb2.io.iptr_A    :=hb1.io.Z
             hb3.io.iptr_A    :=hb2.io.Z
             io.Z             :=hb3.io.Z
-        }
-        is(more) {
+        }.elsewhen(state===more) {
             cic3reset        :=io.controls.reset_loop 
             hb1reset         :=reset.toBool
             hb2reset         :=reset.toBool
@@ -178,7 +173,6 @@ class f2_decimator (n: Int=16, resolution: Int=32, coeffres: Int=16, gainbits: I
             hb3.io.iptr_A    :=hb2.io.Z
             io.Z             :=hb3.io.Z
         }
-    }
 }
 //This is the object to provide verilog
 object f2_decimator extends App {
