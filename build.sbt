@@ -41,7 +41,7 @@ def javacOptionsVersion(scalaVersion: String): Seq[String] = {
 def gitSubmoduleHashSnapshotVersion(submod: String): String = {
     val shellcommand =  "git submodule status | grep %s | awk '{print substr($1,0,7)}'".format(submod)
     scala.sys.process.Process(Seq("/bin/sh", "-c", shellcommand )).!!.mkString.replaceAll("\\s", "")
-
+}
 
 // [TODO] what are these needed for? remove if obsolete
 crossScalaVersions := Seq("2.11.11", "2.12.3")
@@ -91,6 +91,6 @@ libraryDependencies  ++= Seq(
 //libraryDependencies += "edu.berkeley.cs" %% "eagle_serdes" % "0.0-SNAPSHOT"
 
 // Put your git-version controlled snapshots here
-libraryDependencies += "edu.berkeley.cs" %% "halfband" % gitSubmoduleHashSnapshotVersion("halfband")
-libraryDependencies += "edu.berkeley.cs" %% "cic3" % gitSubmoduleHashSnapshotVersion("cic3")
+libraryDependencies += "Chisel-blocks" %% "halfband" % gitSubmoduleHashSnapshotVersion("halfband")
+libraryDependencies += "Chisel-blocks" %% "cic3" % gitSubmoduleHashSnapshotVersion("cic3")
 
