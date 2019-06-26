@@ -61,7 +61,7 @@ resolvers += "Sonatype Releases" at "https://oss.sonatype.org/content/repositori
 val defaultVersions = Map(
   "chisel3" -> "3.1.7",
   "chisel-iotesters" -> "1.2.5",
-  "dsptools" -> "1.1.4"
+  "dsptools" -> "1.1.8"
   )
 
 libraryDependencies ++= (Seq("chisel3","chisel-iotesters","dsptools").map {
@@ -85,10 +85,6 @@ libraryDependencies  ++= Seq(
   // It depends on LGPL code
   "org.scalanlp" %% "breeze-viz" % "0.13.2"
 )
-
-//libraryDependencies += "berkeley" %% "rocketchip" % "1.2"
-//libraryDependencies += "edu.berkeley.eecs" %% "ofdm" % "0.1"
-//libraryDependencies += "edu.berkeley.cs" %% "eagle_serdes" % "0.0-SNAPSHOT"
 
 // Put your git-version controlled snapshots here
 libraryDependencies += "Chisel-blocks" %% "halfband" % gitSubmoduleHashSnapshotVersion("halfband")
